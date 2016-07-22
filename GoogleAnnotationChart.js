@@ -218,9 +218,6 @@ define( [
 						vars.data[i][3].qNum, 
 						(vars.data[i][1].qText!=='-') ? vars.data[i][1].qText : null, 
 						(vars.data[i][2].qText!=='-') ? vars.data[i][2].qText : null, 
-						// vars.data[i][4].qNum, 
-						// vars.data[i][5].qNum, 
-						// vars.data[i][6].qNum
 					]
 					if (vars.data[i][4]) {
 						row.push(vars.data[i][4].qNum)
