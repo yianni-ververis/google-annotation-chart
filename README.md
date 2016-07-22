@@ -26,7 +26,6 @@ A Google Annotation Chart extension for Qlik Sense as found at
 - Zoom Buttons
 - Range Selector
 - Annoation Panel Width
-- Line Headers (In single quotes separated by comma)
 - Line Colors (HEX value separated by comma)
 - Line Thickness
 
