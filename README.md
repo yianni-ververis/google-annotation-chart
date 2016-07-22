@@ -4,6 +4,7 @@ A Google Annotation Chart extension for Qlik Sense as found at
 
 
 ## Installation
+- [Download zip file](https://github.com/yianni-ververis/google-annotation-chart/archive/master.zip)
 - Desktop - Unzip at the extension folder (C:\Users\<user>\Documents\Qlik\Sense\Extensions\GoogleAnnotationChart) 
 - Server - Upload the zip file
 
@@ -31,3 +32,8 @@ A Google Annotation Chart extension for Qlik Sense as found at
 
 
 <img src="preview.png">
+
+
+---
+
+[Download zip file](https://github.com/yianni-ververis/google-annotation-chart/archive/master.zip)
