@@ -128,13 +128,6 @@ define( [
 										min: 5,
 										max: 80
 									},
-									headers: {
-										type: "string",
-										expression: "none",
-										label: "Line Headers (In single quotes separated by comma)",
-										defaultValue: "'Date', 'Line 1 Title','Annotation Title','Annotation Description','Line 2 Title','Line 3 Title','Line 4 Title'",
-										ref: "vars.thickness"
-									},
 									colors: {
 										type: "string",
 										expression: "none",
@@ -164,9 +157,6 @@ define( [
 				exportData: true
 			},
 			paint: function ($element,layout) {
-				console.log(layout)
-				// layout.vars = {};
-				// console.log(layout.qHyperCube.qDataPages[0].qMatrix)
 				var vars = {
 					v: '1.0.1',
 					id: layout.qInfo.qId,
@@ -176,8 +166,6 @@ define( [
 					width: $element.width(),
 					this: this,
 					chart: null,
-					// headers: ['Date', 'Trump','Annotation Title','Annotation Description','Clinton','Cruz','Sanders'],
-					headers: (layout.vars.headers) ? layout.vars.headers.split(',') : ['Date', 'Line 1 Title','Annotation Title','Annotation Description','Line 2 Title','Line 3 Title','Line 4 Title'],
 					options: {
 						displayAnnotations: (layout.vars.displayAnnotations) ? true : false,
 						colors: (layout.vars.colors) ? layout.vars.colors.split(',') : ['#cc3c3c','#395878','#c88d8d','#6f92b5'],
@@ -187,10 +175,24 @@ define( [
 						displayRangeSelector: (layout.vars.displayRangeSelector) ? true : false,
 						thickness: (layout.vars.thickness) ? layout.vars.thickness : 1,
 					},
+					lines: (layout.qHyperCube.qDimensionInfo.length + layout.qHyperCube.qMeasureInfo.length) - 3, // Total -  3 (Date, Title, Description)
 				}
-				console.log(vars)
+				vars.headers = [
+					layout.qHyperCube.qDimensionInfo[0].qFallbackTitle,
+					layout.qHyperCube.qMeasureInfo[0].qFallbackTitle,
+					layout.qHyperCube.qDimensionInfo[1].qFallbackTitle,
+					layout.qHyperCube.qDimensionInfo[2].qFallbackTitle,
+				];
+				if (typeof layout.qHyperCube.qMeasureInfo[1] !== "undefined") {
+					vars.headers.push(layout.qHyperCube.qMeasureInfo[1].qFallbackTitle)
+				}
+				if (typeof layout.qHyperCube.qMeasureInfo[2] !== "undefined") {
+					vars.headers.push(layout.qHyperCube.qMeasureInfo[2].qFallbackTitle)
+				}
+				if (typeof layout.qHyperCube.qMeasureInfo[3] !== "undefined") {
+					vars.headers.push(layout.qHyperCube.qMeasureInfo[3].qFallbackTitle)
+				}
 
-				// Create the CSS for this object before drawing it
 				vars.css = '\n\
 					#' + vars.id + ' {\n\
 						height: ' + vars.height + 'px; \n\
@@ -204,23 +206,32 @@ define( [
 					</div>\n\
 				';
 				$element.html(vars.template);
-// console.log(google.visualization)
+
 				// Start Creating the Google Annotation Chart
 				if (typeof google.visualization === 'undefined') {
 					google.charts.load('current', {'packages':['annotationchart']});
 				}
 				var table = [vars.headers];
 				for (var i=0; i<vars.data.length; i++) {
-					// eventType = (vars.data[i][1].qText!=='-') ? vars.data[i][1].qText : null;
-					// event = (vars.data[i][2].qText!=='-') ? vars.data[i][2].qText : null;
-					table.push([
+					var row = [
 						new Date(vars.data[i][0].qText), 
 						vars.data[i][3].qNum, 
 						(vars.data[i][1].qText!=='-') ? vars.data[i][1].qText : null, 
 						(vars.data[i][2].qText!=='-') ? vars.data[i][2].qText : null, 
-						vars.data[i][4].qNum, 
-						vars.data[i][5].qNum, 
-						vars.data[i][6].qNum]);
+						// vars.data[i][4].qNum, 
+						// vars.data[i][5].qNum, 
+						// vars.data[i][6].qNum
+					]
+					if (vars.data[i][4]) {
+						row.push(vars.data[i][4].qNum)
+					}
+					if (vars.data[i][5]) {
+						row.push(vars.data[i][5].qNum)
+					}
+					if (vars.data[i][6]) {
+						row.push(vars.data[i][6].qNum)
+					}
+					table.push(row);
 				}
 				google.charts.setOnLoadCallback(drawChart);
 				function drawChart() {

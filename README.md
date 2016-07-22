@@ -16,7 +16,7 @@ A Google Annotation Chart extension for Qlik Sense as found at
   1. Date - for the X-Axis
   2. Annotation Title
   3. Annotation Description
-- Add up to 4 measures for each line that you want
+- Add up to 4 measures for each line that you want. Make sure you put a short label at the measurement since this will be displayed on the top of the chart
 
 
 ##### Extension Settings
