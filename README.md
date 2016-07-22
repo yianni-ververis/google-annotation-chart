@@ -15,11 +15,19 @@ A Google Annotation Chart extension for Qlik Sense as found at
   1. Date - for the X-Axis
   2. Annotation Title
   3. Annotation Description
-- Add up to 4 measures for the each line that you want
+- Add up to 4 measures for each line that you want
 
 
 ##### Extension Settings
-- Coming up
+- Display Annotations
+- Annotations Filter
+- Bar Separator
+- Zoom Buttons
+- Range Selector
+- Annoation Panel Width
+- Line Headers (In single quotes separated by comma)
+- Line Colors (HEX value separated by comma)
+- Line Thickness
 
 
 <img src="preview.png">

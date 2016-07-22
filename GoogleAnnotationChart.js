@@ -40,6 +40,121 @@ define( [
 					},
 					sorting: {
 						uses: "sorting"
+					},
+					settings : {
+						uses : "settings",
+						items: {
+							Chart: {
+								type: "items",
+								label: "Settings",
+								items: {
+									displayAnnotations: {
+										type: "boolean",
+										component: "switch",
+										label: "Display Annotations",
+										ref: "vars.displayAnnotations",
+										options: [{
+											value: true,
+											label: "On"
+										}, {
+											value: false,
+											label: "Off"
+										}],
+										defaultValue: true
+									},
+									displayAnnotationsFilter: {
+										type: "boolean",
+										component: "switch",
+										label: "Annotations Filter",
+										ref: "vars.displayAnnotationsFilter",
+										options: [{
+											value: true,
+											label: "On"
+										}, {
+											value: false,
+											label: "Off"
+										}],
+										defaultValue: true
+									},
+									displayDateBarSeparator: {
+										type: "boolean",
+										component: "switch",
+										label: "Bar Separator",
+										ref: "vars.displayDateBarSeparator",
+										options: [{
+											value: true,
+											label: "On"
+										}, {
+											value: false,
+											label: "Off"
+										}],
+										defaultValue: true
+									},
+									displayZoomButtons: {
+										type: "boolean",
+										component: "switch",
+										label: "Zoom Buttons",
+										ref: "vars.displayZoomButtons",
+										options: [{
+											value: true,
+											label: "On"
+										}, {
+											value: false,
+											label: "Off"
+										}],
+										defaultValue: true
+									},
+									displayRangeSelector: {
+										type: "boolean",
+										component: "switch",
+										label: "Range Selector",
+										ref: "vars.displayRangeSelector",
+										options: [{
+											value: true,
+											label: "On"
+										}, {
+											value: false,
+											label: "Off"
+										}],
+										defaultValue: true
+									},
+									annotationWidth: {
+										type: "number",
+										expression: "none",
+										label: "Annoation Panel Width",
+										component: "slider",
+										ref: "vars.annotationWidth",
+										defaultValue: 25,
+										min: 5,
+										max: 80
+									},
+									headers: {
+										type: "string",
+										expression: "none",
+										label: "Line Headers (In single quotes separated by comma)",
+										defaultValue: "'Date', 'Line 1 Title','Annotation Title','Annotation Description','Line 2 Title','Line 3 Title','Line 4 Title'",
+										ref: "vars.thickness"
+									},
+									colors: {
+										type: "string",
+										expression: "none",
+										label: "Line Colors (HEX value separated by comma)",
+										defaultValue: "#cc3c3c,#395878,#c88d8d,#6f92b5",
+										ref: "vars.colors"
+									},
+									thickness: {
+										type: "number",
+										expression: "none",
+										label: "Line Thickness",
+										component: "slider",
+										ref: "vars.thickness",
+										defaultValue: 1,
+										min: 1,
+										max: 5
+									},
+								}
+							}
+						}
 					}
 				}
 			},
@@ -50,7 +165,8 @@ define( [
 			},
 			paint: function ($element,layout) {
 				console.log(layout)
-				console.log(layout.qHyperCube.qDataPages[0].qMatrix)
+				// layout.vars = {};
+				// console.log(layout.qHyperCube.qDataPages[0].qMatrix)
 				var vars = {
 					v: '1.0.1',
 					id: layout.qInfo.qId,
@@ -60,17 +176,19 @@ define( [
 					width: $element.width(),
 					this: this,
 					chart: null,
-					headers: ['Date', 'Trump','Annotation Title','Annotation Description','Clinton','Cruz','Sanders'],
+					// headers: ['Date', 'Trump','Annotation Title','Annotation Description','Clinton','Cruz','Sanders'],
+					headers: (layout.vars.headers) ? layout.vars.headers.split(',') : ['Date', 'Line 1 Title','Annotation Title','Annotation Description','Line 2 Title','Line 3 Title','Line 4 Title'],
 					options: {
-						displayAnnotations: true,
-						colors: ['#cc3c3c','#395878','#c88d8d','#6f92b5'],
-						displayAnnotationsFilter: true,
-						displayDateBarSeparator: true,
-						displayZoomButtons: true,
-						displayRangeSelector: true,
-						thickness: 2
+						displayAnnotations: (layout.vars.displayAnnotations) ? true : false,
+						colors: (layout.vars.colors) ? layout.vars.colors.split(',') : ['#cc3c3c','#395878','#c88d8d','#6f92b5'],
+						displayAnnotationsFilter: (layout.vars.displayAnnotationsFilter) ? true : false,
+						displayDateBarSeparator: (layout.vars.displayDateBarSeparator) ? true : false,
+						displayZoomButtons: (layout.vars.displayZoomButtons) ? true : false,
+						displayRangeSelector: (layout.vars.displayRangeSelector) ? true : false,
+						thickness: (layout.vars.thickness) ? layout.vars.thickness : 1,
 					},
 				}
+				console.log(vars)
 
 				// Create the CSS for this object before drawing it
 				vars.css = '\n\
